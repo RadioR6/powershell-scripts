@@ -26,7 +26,6 @@ foreach ($char in $art.ToCharArray()) {
         Write-Host $char -ForegroundColor $white -NoNewline
     }
 }
-
 function Get-OneDrivePath {
     try {
         # Attempt to retrieve OneDrive path from registry
@@ -164,12 +163,12 @@ function Find-SusFiles {
 }
 
 function List-BAMStateUserSettings {
-    Write-Host "Logging reg entries inside PowerShell..." -ForegroundColor DarkMagenta
+    Write-Host "Logging reg entries inside PowerShell..." -ForegroundColor DarkMagent
     $desktopPath = [System.Environment]::GetFolderPath('Desktop')
     $outputFile = Join-Path -Path $desktopPath -ChildPath "PcCheckLogs.txt"
     if (Test-Path $outputFile) { Clear-Content $outputFile }
     $loggedPaths = @{}
-    Write-Host " Fetching UserSettings Entries " -ForegroundColor DarkMagenta
+     Write-Host " Fetching UserSettings Entries " -ForegroundColor DarkMagenta
     # Log entries from bam\State\UserSettings
     $registryPath = "HKLM:\SYSTEM\CurrentControlSet\Services\bam\State\UserSettings"
     $userSettings = Get-ChildItem -Path $registryPath | Where-Object { $_.Name -like "*1001" }
@@ -188,8 +187,7 @@ function List-BAMStateUserSettings {
     } else {
         Write-Host "No relevant user settings found." -ForegroundColor DarkMagenta
     }
-    
-    Write-Host "Fetching Compatibility Assistant Entries"
+Write-Host "Fetching Compatibility Assistant Entries"
     # Log entries from Compatibility Assistant Store
     $compatRegistryPath = "HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Compatibility Assistant\Store"
     $compatEntries = Get-ItemProperty -Path $compatRegistryPath
@@ -199,8 +197,7 @@ function List-BAMStateUserSettings {
             $loggedPaths[$_.Name] = $true
         }
     }
-    
-    Write-Host "Fetching AppsSwitched Entries" -ForegroundColor Cyan
+Write-Host "Fetching AppsSwitched Entries" -ForegroundColor Cyan
     # Log entries from FeatureUsage\AppSwitched
     $newRegistryPath = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FeatureUsage\AppSwitched"
     if (Test-Path $newRegistryPath) {
@@ -212,9 +209,8 @@ function List-BAMStateUserSettings {
             }
         }
     }
-    
-    Write-Host "Fetching MuiCache Entries" -ForegroundColor Cyan
-    # Log entries from MuiCache
+Write-Host "Fetching MuiCache Entries" -ForegroundColor Cyan
+    # Log entries from MuiCachea
     $muiCachePath = "HKCR:\Local Settings\Software\Microsoft\Windows\Shell\MuiCache"
     if (Test-Path $muiCachePath) {
         $muiCacheEntries = Get-ChildItem -Path $muiCachePath
@@ -230,7 +226,7 @@ function List-BAMStateUserSettings {
 
     Log-BrowserFolders
     # Remove the placeholder Log-MUICacheEntries function call if not defined elsewhere
-
+  
     $folderNames = Log-FolderNames | Sort-Object | Get-Unique
     Add-Content -Path $outputFile -Value "`n-----------------"
     Add-Content -Path $outputFile -Value "`nR6 Usernames:"
@@ -244,7 +240,6 @@ function List-BAMStateUserSettings {
     }
 }
 Write-Host " Fetching Downloaded Browsers " -ForegroundColor Darkred
-
 function Log-BrowserFolders {
     Write-Host "Logging reg entries inside PowerShell..." -ForegroundColor DarkMagenta
     $registryPath = "HKLM:\SOFTWARE\Clients\StartMenuInternet"
@@ -322,5 +317,5 @@ Write-Host "$space╰───────────────────�
 
 # Print the magenta border and text
 Write-Host "$space╭─────────────────────────────────────╮" -ForegroundColor $magenta
-Write-Host "$space│          Discord @radio        │" -ForegroundColor $magenta
+Write-Host "$space│          Discord @Radio             │" -ForegroundColor $magenta
 Write-Host "$space╰─────────────────────────────────────╯" -ForegroundColor $magenta
